@@ -9,14 +9,17 @@ describe("MarsRover", () => {
     });
 
     test("return new dimensions of rover", () => {
-        expect(Mars_rover("1 2 N", "LMLMLMLMM")).toBe("1 1 N");
-        expect(Mars_rover("3 3 E", "MMRMMRMRRM")).toBe("5 1 E");
-        expect(Mars_rover("4 7 W", "RMLMLRLMR")).toBe("3 6 W");
+        expect(Mars_rover("1 2 N", "LMLMLMLMM")).toBe("1 3 N");
+        expect(Mars_rover("4 7 W", "RMLMLRLMR")).toBe("3 7 W");
     });
 
-    test("return message of plateau boundry", () => {
-        expect(Mars_rover("1 2 N", "LMLMLMLMM")).toBe("1 1 N");
-        expect(Mars_rover("3 3 E", "MMRMMRMRRM")).toBe("5 1 E");
-        expect(Mars_rover("4 7 W", "RMLMLRLMR")).toBe("3 6 W");
+    test("return error message of plateau boundry", () => {
+        expect(Mars_rover("15 15 E", "MLMLMLMM")).toMatch("Out of Boundry");
     });
+
+    test("rover conflict error with other rovers", () => {
+        expect(Mars_rover("3 3 E", "MMRMMRMRRM")).toMatch("Conflict Error");
+        expect(Mars_rover("3 3 E", "MMRMMRMRRM")).toMatch("Conflict Error");
+    });
+
 });

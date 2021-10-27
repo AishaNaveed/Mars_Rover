@@ -1,16 +1,17 @@
 function Mars_rover(currentPosition, movement) {
     if (!currentPosition || !movement) throw new Error("input is required");
 
-    let plateau = "9 9";
+    let plateau = "15 14";
 
     //other rovers position that can be obstacles for moving rover
     let otherRoverPositions = [
-        "1 1 N",
-        "5 5 S",
-        "3 4 E"
+         "5 15 S",
+         "12 9 W",
+         "3 10 E",
+         "4 3 N"
     ];
 
-    let area = new Array(plateau.split(' '));
+    let area = plateau.split(' ');
     let cPosition = GetRoverPosition(currentPosition);
     let charArr = new Array(...movement);
 
@@ -28,6 +29,12 @@ function Mars_rover(currentPosition, movement) {
         }
         else if (item.toString() === "M") {
             currentPosition = Forward(maxX, maxY, cPosition, otherRoverPositions);
+            if (currentPosition.includes("Conflict Error")) {
+                return currentPosition;
+            }
+            else if(currentPosition.includes("Out of Boundry")) {
+                return currentPosition;
+            }
         }
     });
     return currentPosition;
@@ -86,45 +93,57 @@ function Forward(maxX, maxY, RoverPosition, otherRoverPositions) {
 
     if (direction === "N" || direction === "S") {
         if (direction === "N") {
-            if (positionY + 1 <= maxY) {
-                if (!LocationConflict(positionX, positionY + 1, otherRoverPositions)) {
+            if (parseInt(positionY) + 1 <= maxY) {
+                if (!LocationConflict(positionX, parseInt(positionY) + 1, otherRoverPositions)) {
                     positionY++;
                 }
-                else{
-                    console.log("Out of plateau");
+                else {
+                    return "Conflict Error";
                 }
+            }
+            else {
+                return "Out of Boundry";
             }
         }
         else if (direction === "S") {
-            if (positionY - 1 >= 0) {
-                if (!LocationConflict(positionX, positionY - 1, otherRoverPositions)) {
+            if (parseInt(positionY) - 1 >= 0) {
+                if (!LocationConflict(positionX, parseInt(positionY) - 1, otherRoverPositions)) {
                     positionY--;
                 }
-                else{
-                    console.log("Out of plateau");
+                else {
+                    return "Conflict Error";
                 }
+            }
+            else {
+                return "Out of Boundry";
             }
         }
     }
     else if (direction === "W" || direction === "E") {
         if (direction === "W") {
-            if (positionX - 1 >= 0) {
-                if (!LocationConflict(positionX - 1, positionY, otherRoverPositions)) {
+            if (parseInt(positionX) - 1 >= 0) {
+                if (!LocationConflict(parseInt(positionX) - 1, positionY, otherRoverPositions)) {
                     positionX--;
                 }
-                else{
-                    console.log("Out of plateau");
+                else {
+                    return "Conflict Error";
                 }
+            }
+            else {
+                return "Out of Boundry";
             }
         }
         else if (direction === "E") {
-            if (positionX + 1 <= maxX) {
-                if (!LocationConflict(positionX + 1, positionY, otherRoverPositions)) {
-                    positionX++;
+            if (parseInt(positionX) + 1 <= maxX) {
+                if (!LocationConflict(parseInt(positionX)+1, positionY, otherRoverPositions)) {
+                    positionX++;;
                 }
-                else{
-                    console.log("Out of plateau");
+                else {
+                    return "Conflict Error";
                 }
+            }
+            else {
+                return "Out of Boundry";
             }
         }
     }
@@ -143,19 +162,22 @@ function GetRoverPosition(RoverPosition) {
 
 //////////////////////Location conflict with other rovers
 function LocationConflict(newX, newY, otherRoverPositions) {
+
+    let result = false;
     otherRoverPositions.forEach(item => {
         let rover = GetRoverPosition(item);
 
         let position = rover.split(' ');
         let positionX = position[0];
         let positionY = position[1];
-
-        if (positionX === newX && positionY === newY)
-            return true;
+        if (positionX == newX && positionY == newY)
+        {
+            result = true;
+            
+        }
     });
-    return false;
+    return result;
 }
-
 
 module.exports = {
     Mars_rover
