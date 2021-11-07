@@ -1,11 +1,39 @@
+const conflictError = "Rover conflict occured";
+const outOfBoundry = "Reached Plateau boundry";
+
+//////////////run multiple rovers at the same time and check for conflicts or boundry
+const runMultipleRovers= (roversMovementInstructions) =>{
+    if(roversMovementInstructions === undefined){
+        return "Invalid input";
+    }
+
+    let roverPositions = [];
+    roverPositions = roversMovementInstructions;
+    
+    for (let i=0; i<roversMovementInstructions.length; i++) {        
+         const cRoverInstructions = roversMovementInstructions[i].split(' ');
+         let upDatedPosition = Mars_rover(
+             cRoverInstructions[0].toString() + " " + cRoverInstructions[1].toString() + " " + cRoverInstructions[2].toString(),
+             cRoverInstructions[3], roverPositions)
+
+         if(!isNaN(upDatedPosition.split(' ')[0])){
+             // rover movement is successful, now we can update location
+             console.log(roversMovementInstructions[i].split(' '));
+             roverPositions.shift();
+             roverPositions.push(upDatedPosition + " " + cRoverInstructions[3]);
+         }
+         else{
+             return upDatedPosition;
+
+         }
+    }
+}
 
 const Mars_rover= (currentPosition, movement, otherRoverPositions) => {
     if (!currentPosition || !movement) throw new Error("input is required");
 
     const plateau = "15 14";
-    const conflictError = "Rover conflict occured";
-    const outOfBoundry = "Reached Plateau boundry";
-
+    
     let area = plateau.split(' ');
     let cPosition = GetRoverPosition(currentPosition);
     let charArr = new Array(...movement);
@@ -17,10 +45,10 @@ const Mars_rover= (currentPosition, movement, otherRoverPositions) => {
         cPosition = GetRoverPosition(currentPosition);
 
         if (item.toString() === "L") {
-            currentPosition = Left_turn(cPosition);
+            currentPosition = leftTurn(cPosition);
         }
         else if (item.toString() === "R") {
-            currentPosition = right_Turn(cPosition);
+            currentPosition = rightTurn(cPosition);
         }
         else if (item.toString() === "M") {
             currentPosition = moveForward(maxX, maxY, cPosition, otherRoverPositions);
@@ -36,7 +64,7 @@ const Mars_rover= (currentPosition, movement, otherRoverPositions) => {
 }
 
 ////////////right Turn function
-const right_Turn = RoverPosition => {
+const rightTurn = RoverPosition => {
     let position = RoverPosition.split(' ');
     let positionX = position[0];
     let positionY = position[1];
@@ -57,7 +85,7 @@ const right_Turn = RoverPosition => {
 }
 
 ///////left turn function
-const Left_turn = RoverPosition => {
+const leftTurn = RoverPosition => {
     let position = RoverPosition.split(' ');
     let positionX = position[0];
     let positionY = position[1];
@@ -79,9 +107,6 @@ const Left_turn = RoverPosition => {
 
 //////////forward movement function
 const moveForward = (maxX, maxY, RoverPosition, otherRoverPositions) => {
-    const conflictError = "Rover conflict occured";
-    const outOfBoundry = "Reached Plateau boundry";
-
     let position = RoverPosition.split(' ');
     let positionX = position[0];
     let positionY = position[1];
@@ -179,5 +204,6 @@ const LocationConflict = (newX, newY, otherRoverPositions) => {
 }
 
 module.exports = {
-    Mars_rover
+    Mars_rover,
+    runMultipleRovers
 };

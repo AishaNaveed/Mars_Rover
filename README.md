@@ -22,6 +22,7 @@ Work on the Kata that moves a rover around on a grid:-
 * Implemented commands that turn the rover left/right.
 * Implemented obstacle detection before each move to a new square. If a given sequence of commands encounters an obstacle, function returns and gives error.
 * Implemented boundry limit detection before each move to a new square. If a given sequence of commands encounters boundry line, function returns and gives error.
+* Implemented multiple rovers movement at the same time, detecting for obstacles or boundry and return function output accordingly.
 
 Future updates:-
 ==============

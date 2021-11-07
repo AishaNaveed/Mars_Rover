@@ -1,5 +1,5 @@
 const {
-    Mars_rover, 
+    Mars_rover,
     runMultipleRovers
 } = require("./Mars_Rover");
 
@@ -36,7 +36,7 @@ describe("MarsRover", () => {
         "3 10 E LMLMLMLMM",
         "4 3 N LMRMLMLMM"
    ];
-    test("rover conflict error with other rovers", () => {
+    test("Run multiple rovers at the same time and check for appropriate output", () => {
         expect(runMultipleRovers(roversMovementSet)).toBe("Reached Plateau boundry");
     });
 });
