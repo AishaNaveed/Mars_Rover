@@ -6,6 +6,7 @@ describe("MarsRover", () => {
     test("will return error if the argument is not passed", () => {
         expect(() => Mars_rover()).toThrow("input is required");
         expect(() => Mars_rover("MLMLMRRRR")).toThrow("input is required");
+        expect(() => Mars_rover("2 4 S")).toThrow("input is required");
     });
 
     test("return new dimensions of rover", () => {
@@ -22,4 +23,7 @@ describe("MarsRover", () => {
         expect(Mars_rover("3 3 E", "MMRMMRMRRM")).toMatch("Conflict Error");
     });
 
+    test("checking rover function for different string", () => {
+        expect(Mars_rover("3 3 E", "MMRMMRMRRM")).toBe("");
+    });
 });
