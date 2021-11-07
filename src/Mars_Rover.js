@@ -1,17 +1,10 @@
-const Mars_rover= (currentPosition, movement) => {
+
+const Mars_rover= (currentPosition, movement, otherRoverPositions) => {
     if (!currentPosition || !movement) throw new Error("input is required");
 
     const plateau = "15 14";
     const conflictError = "Rover conflict occured";
     const outOfBoundry = "Reached Plateau boundry";
-
-    //other rovers position that can be obstacles for moving rover
-    const otherRoverPositions = [
-         "5 15 S",
-         "12 9 W",
-         "3 10 E",
-         "4 3 N"
-    ];
 
     let area = plateau.split(' ');
     let cPosition = GetRoverPosition(currentPosition);
@@ -167,6 +160,10 @@ const GetRoverPosition = RoverPosition => {
 const LocationConflict = (newX, newY, otherRoverPositions) => {
 
     let result = false;
+    
+    if(otherRoverPositions === undefined)
+    return result;
+
     otherRoverPositions.forEach(item => {
         let rover = GetRoverPosition(item);
 

@@ -1,5 +1,6 @@
 const {
-    Mars_rover
+    Mars_rover, 
+    runMultipleRovers
 } = require("./Mars_Rover");
 
 describe("MarsRover", () => {
@@ -18,7 +19,24 @@ describe("MarsRover", () => {
         expect(Mars_rover("15 15 E", "MLMLMLMM")).toBe("Reached Plateau boundry");
     });
 
+    const otherRoverPositions = [
+         "5 15 S",
+         "12 9 W",
+         "3 10 E",
+         "4 3 N"
+    ];
+
     test("rover conflict error with other rovers", () => {
-        expect(Mars_rover("3 3 E", "MMRMMRMRRM")).toBe("Rover conflict occured");
+        expect(Mars_rover("3 3 E", "MMRMMRMRRM", otherRoverPositions)).toBe("Rover conflict occured");
+    });
+
+    const roversMovementSet = [
+        "5 15 S LMLMLMLMM",
+        "12 9 W LMLMLMLMM",
+        "3 10 E LMLMLMLMM",
+        "4 3 N LMRMLMLMM"
+   ];
+    test("rover conflict error with other rovers", () => {
+        expect(runMultipleRovers(roversMovementSet)).toBe("Reached Plateau boundry");
     });
 });
