@@ -1,3 +1,14 @@
+Instructions: How to install the repository
+==========================================
+First you will need to fork the repository to your Github and than clone it on your local computer. You can clone it using command :
+* git clone https://github.com/AishaNaveed/Mars_Rover.git
+
+After that install its dependencies using :
+* npm install
+
+To run the test file, run :
+* npm test
+
 Work on the Kata that moves a rover around on a grid:-
 ====================================================
 
