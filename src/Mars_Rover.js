@@ -2,6 +2,8 @@ const Mars_rover= (currentPosition, movement) => {
     if (!currentPosition || !movement) throw new Error("input is required");
 
     const plateau = "15 14";
+    const conflictError = "Rover conflict occured";
+    const outOfBoundry = "Reached Plateau boundry";
 
     //other rovers position that can be obstacles for moving rover
     const otherRoverPositions = [
@@ -29,10 +31,10 @@ const Mars_rover= (currentPosition, movement) => {
         }
         else if (item.toString() === "M") {
             currentPosition = moveForward(maxX, maxY, cPosition, otherRoverPositions);
-            if (currentPosition.includes("Conflict Error")) {
+            if (currentPosition.includes(conflictError)) {
                 return currentPosition;
             }
-            else if(currentPosition.includes("Out of Boundry")) {
+            else if(currentPosition.includes(outOfBoundry)) {
                 return currentPosition;
             }
         }
@@ -84,11 +86,14 @@ const Left_turn = RoverPosition => {
 
 //////////forward movement function
 const moveForward = (maxX, maxY, RoverPosition, otherRoverPositions) => {
+    const conflictError = "Rover conflict occured";
+    const outOfBoundry = "Reached Plateau boundry";
+
     let position = RoverPosition.split(' ');
     let positionX = position[0];
     let positionY = position[1];
     let direction = position[2];
-
+    
     if (direction === "N" || direction === "S") {
         if (direction === "N") {
             if (parseInt(positionY) + 1 <= maxY) {
@@ -96,11 +101,11 @@ const moveForward = (maxX, maxY, RoverPosition, otherRoverPositions) => {
                     positionY++;
                 }
                 else {
-                    return "Conflict Error";
+                    return conflictError;
                 }
             }
             else {
-                return "Out of Boundry";
+                return outOfBoundry;
             }
         }
         else if (direction === "S") {
@@ -109,11 +114,11 @@ const moveForward = (maxX, maxY, RoverPosition, otherRoverPositions) => {
                     positionY--;
                 }
                 else {
-                    return "Conflict Error";
+                    return conflictError;
                 }
             }
             else {
-                return "Out of Boundry";
+                return outOfBoundry;
             }
         }
     }
@@ -124,11 +129,11 @@ const moveForward = (maxX, maxY, RoverPosition, otherRoverPositions) => {
                     positionX--;
                 }
                 else {
-                    return "Conflict Error";
+                    return conflictError;
                 }
             }
             else {
-                return "Out of Boundry";
+                return outOfBoundry;
             }
         }
         else if (direction === "E") {
@@ -137,11 +142,11 @@ const moveForward = (maxX, maxY, RoverPosition, otherRoverPositions) => {
                     positionX++;;
                 }
                 else {
-                    return "Conflict Error";
+                    return conflictError;
                 }
             }
             else {
-                return "Out of Boundry";
+                return outOfBoundry;
             }
         }
     }

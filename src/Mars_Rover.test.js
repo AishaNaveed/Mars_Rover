@@ -15,15 +15,10 @@ describe("MarsRover", () => {
     });
 
     test("return error message of plateau boundry", () => {
-        expect(Mars_rover("15 15 E", "MLMLMLMM")).toMatch("Out of Boundry");
+        expect(Mars_rover("15 15 E", "MLMLMLMM")).toBe("Reached Plateau boundry");
     });
 
     test("rover conflict error with other rovers", () => {
-        expect(Mars_rover("3 3 E", "MMRMMRMRRM")).toMatch("Conflict Error");
-        expect(Mars_rover("3 3 E", "MMRMMRMRRM")).toMatch("Conflict Error");
-    });
-
-    test("checking rover function for different string", () => {
-        expect(Mars_rover("3 3 E", "MMRMMRMRRM")).toBe("");
+        expect(Mars_rover("3 3 E", "MMRMMRMRRM")).toBe("Rover conflict occured");
     });
 });
