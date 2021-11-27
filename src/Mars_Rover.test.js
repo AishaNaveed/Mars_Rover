@@ -1,28 +1,28 @@
 const {
-    Mars_rover,
+    marsRover,
     runMultipleRovers
 } = require("./Mars_Rover");
 
 describe("MarsRover", () => {
     test("will return error if no argument is not passed", () => {
-        expect(() => Mars_rover()).toThrow("input is required");
+        expect(() => marsRover()).toThrow("input is required");
     });
 
     test("will return error if one argument is not passed", () => {
-        expect(() => Mars_rover("MLMLMRRRR")).toThrow("input is required");
-        expect(() => Mars_rover("2 4 S")).toThrow("input is required");
+        expect(() => marsRover("MLMLMRRRR")).toThrow("input is required");
+        expect(() => marsRover("2 4 S")).toThrow("input is required");
     });
 
     test("return new dimensions of rover", () => {
-        expect(Mars_rover("4 7 W", "RMLMLRLMR")).toBe("3 7 W");
+        expect(marsRover("4 7 W", "RMLMLRLMR")).toBe("3 7 W");
     });
     
     test("return new dimensions of rover", () => {
-        expect(Mars_rover("1 2 N", "LMLMLMLMM")).toBe("1 3 N");
+        expect(marsRover("1 2 N", "LMLMLMLMM")).toBe("1 3 N");
     });
 
     test("return error message of plateau boundry", () => {
-        expect(Mars_rover("15 15 E", "MLMLMLMM")).toBe("Reached Plateau boundry");
+        expect(marsRover("15 15 E", "MLMLMLMM")).toBe("Reached Plateau boundry");
     });
 
     const otherRoverPositions = [
@@ -32,7 +32,7 @@ describe("MarsRover", () => {
          "4 3 N"
     ];
     test("rover conflict error with other rovers", () => {
-        expect(Mars_rover("3 3 E", "MMRMMRMRRM", otherRoverPositions)).toBe("Rover conflict occured");
+        expect(marsRover("3 3 E", "MMRMMRMRRM", otherRoverPositions)).toBe("Rover conflict occured");
     });
 
     const roversMovementSet = [

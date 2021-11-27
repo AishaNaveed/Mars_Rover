@@ -2,47 +2,47 @@ const conflictError = "Rover conflict occured";
 const outOfBoundry = "Reached Plateau boundry";
 
 //////////////run multiple rovers at the same time and check for conflicts or boundry
-const runMultipleRovers= (roversMovementInstructions) =>{
-    if(roversMovementInstructions === undefined){
+const runMultipleRovers = (roversMovementInstructions) => {
+    if (roversMovementInstructions === undefined) {
         return "Invalid input";
     }
 
     let roverPositions = [];
     roverPositions = roversMovementInstructions;
-    
-    for (let i=0; i<roversMovementInstructions.length; i++) {        
-         const cRoverInstructions = roversMovementInstructions[i].split(' ');
-         let upDatedPosition = Mars_rover(
-             cRoverInstructions[0].toString() + " " + cRoverInstructions[1].toString() + " " + cRoverInstructions[2].toString(),
-             cRoverInstructions[3], roverPositions)
 
-         if(!isNaN(upDatedPosition.split(' ')[0])){
-             // rover movement is successful, now we can update location
-             console.log(roversMovementInstructions[i].split(' '));
-             roverPositions.shift();
-             roverPositions.push(upDatedPosition + " " + cRoverInstructions[3]);
-         }
-         else{
-             return upDatedPosition;
+    for (let i = 0; i < roversMovementInstructions.length; i++) {
+        const cRoverInstructions = roversMovementInstructions[i].split(' ');
+        let upDatedPosition = marsRover(
+            cRoverInstructions[0].toString() + " " + cRoverInstructions[1].toString() + " " + cRoverInstructions[2].toString(),
+            cRoverInstructions[3], roverPositions)
 
-         }
+        if (!isNaN(upDatedPosition.split(' ')[0])) {
+            // rover movement is successful, now we can update location
+            console.log(roversMovementInstructions[i].split(' '));
+            roverPositions.shift();
+            roverPositions.push(upDatedPosition + " " + cRoverInstructions[3]);
+        }
+        else {
+            return upDatedPosition;
+
+        }
     }
 }
 
-const Mars_rover= (currentPosition, movement, otherRoverPositions) => {
+const marsRover = (currentPosition, movement, otherRoverPositions) => {
     if (!currentPosition || !movement) throw new Error("input is required");
 
     const plateau = "15 14";
-    
+
     let area = plateau.split(' ');
-    let cPosition = GetRoverPosition(currentPosition);
+    let cPosition = getRoverPosition(currentPosition);
     let charArr = new Array(...movement);
 
     let maxX = area[0];
     let maxY = area[1];
 
     charArr.forEach(item => {
-        cPosition = GetRoverPosition(currentPosition);
+        cPosition = getRoverPosition(currentPosition);
 
         if (item.toString() === "L") {
             currentPosition = leftTurn(cPosition);
@@ -55,7 +55,7 @@ const Mars_rover= (currentPosition, movement, otherRoverPositions) => {
             if (currentPosition.includes(conflictError)) {
                 return currentPosition;
             }
-            else if(currentPosition.includes(outOfBoundry)) {
+            else if (currentPosition.includes(outOfBoundry)) {
                 return currentPosition;
             }
         }
@@ -64,8 +64,8 @@ const Mars_rover= (currentPosition, movement, otherRoverPositions) => {
 }
 
 ////////////right Turn function
-const rightTurn = RoverPosition => {
-    let position = RoverPosition.split(' ');
+const rightTurn = roverPosition => {
+    let position = roverPosition.split(' ');
     let positionX = position[0];
     let positionY = position[1];
     let direction = position[2];
@@ -85,8 +85,8 @@ const rightTurn = RoverPosition => {
 }
 
 ///////left turn function
-const leftTurn = RoverPosition => {
-    let position = RoverPosition.split(' ');
+const leftTurn = roverPosition => {
+    let position = roverPosition.split(' ');
     let positionX = position[0];
     let positionY = position[1];
     let direction = position[2];
@@ -106,12 +106,12 @@ const leftTurn = RoverPosition => {
 }
 
 //////////forward movement function
-const moveForward = (maxX, maxY, RoverPosition, otherRoverPositions) => {
-    let position = RoverPosition.split(' ');
+const moveForward = (maxX, maxY, roverPosition, otherRoverPositions) => {
+    let position = roverPosition.split(' ');
     let positionX = position[0];
     let positionY = position[1];
     let direction = position[2];
-    
+
     if (direction === "N" || direction === "S") {
         if (direction === "N") {
             if (parseInt(positionY) + 1 <= maxY) {
@@ -156,7 +156,7 @@ const moveForward = (maxX, maxY, RoverPosition, otherRoverPositions) => {
         }
         else if (direction === "E") {
             if (parseInt(positionX) + 1 <= maxX) {
-                if (!LocationConflict(parseInt(positionX)+1, positionY, otherRoverPositions)) {
+                if (!LocationConflict(parseInt(positionX) + 1, positionY, otherRoverPositions)) {
                     positionX++;;
                 }
                 else {
@@ -172,8 +172,8 @@ const moveForward = (maxX, maxY, RoverPosition, otherRoverPositions) => {
 }
 
 ///////////////////Get Rover position
-const GetRoverPosition = RoverPosition => {
-    let position = RoverPosition.split(' ');
+const getRoverPosition = roverPosition => {
+    let position = roverPosition.split(' ');
     let positionX = position[0];
     let positionY = position[1];
     let direction = position[2];
@@ -185,25 +185,25 @@ const GetRoverPosition = RoverPosition => {
 const LocationConflict = (newX, newY, otherRoverPositions) => {
 
     let result = false;
-    
-    if(otherRoverPositions === undefined)
-    return result;
+
+    if (otherRoverPositions === undefined)
+        return result;
 
     otherRoverPositions.forEach(item => {
-        let rover = GetRoverPosition(item);
+        let rover = getRoverPosition(item);
 
         let position = rover.split(' ');
         let positionX = position[0];
         let positionY = position[1];
-        if (positionX == newX && positionY == newY){
+        if (positionX == newX && positionY == newY) {
             result = true;
-            
+
         }
     });
     return result;
 }
 
 module.exports = {
-    Mars_rover,
+    marsRover,
     runMultipleRovers
 };
